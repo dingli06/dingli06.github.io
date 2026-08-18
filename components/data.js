@@ -117,7 +117,8 @@ export const projects = [
     desc: '包括但不限于nl2sql one-shot(航空项目),nl2chart 任务拆解 (百威数据分析),prompt context 聚类优化调整 (宁波投行税单抽取),消除幻觉(知识库项目),结合规则召回的 RAG(金融核查系统)',
     "tablist":{
       "航空One-shot":"./resource/design/aironeshot.jpg",
-      "NL2Chart":"./resource/design/nl2chat.jpg",
+      "NL2Chart 设计稿":"./resource/design/nl2chat.jpg",
+      "NL2Chart 成品":"./resource/design/nl2chatdemo.jpg",
       "聚类分块抽取":"./resource/design/ocr_cluster.jpg"
     }
   },
@@ -209,10 +210,52 @@ export const hobbies = [
   { icon: 'fa-book', text: '阅读' },
 ];
 
+
+// 作品展示  标题 介绍 视频or image  show dict{标题名字:资源路径}
+export const gallery = [
+  {
+    title: '组装工序检测',
+    desc: '通过Mediapipe 检测手指关键，以及标定盒子区域，实现顺序检测',
+    show: {
+      "1. 成果展示":"./resource/design/gongxu.jpg",
+    }
+  },
+  {
+    title:'校园安防检测',
+    desc: '通过关节点检测+时序分析+语义分割，分别实现打架识别，跌倒识别，翻墙检测',
+    show: {
+      "1. 技术架构":"./resource/design/anfang_design.png",
+      "2. 打架识别":"./resource/design/fight_detect.jpg",
+      "3. 跌倒识别":"./resource/design/fall_res.jpg",
+      "4. 翻墙识别":"./resource/design/climb_wall.png",
+      
+
+    }
+
+
+  }
+]
+
+
 // 页脚
 export const footer = {
-  text: 'created by',
-  link: 'https://space.coze.cn',
-  linkText: 'coze space',
-  note: '页面内容均由 AI 生成,仅供参考',
+  note: 'Made by Alen',
 };
+
+// ---------- 拼图（Metro 磁贴）元数据 ----------
+// 用于 WinPE8 风格的磁贴视图：每个磁贴对应一个区块
+// id    : 挂载点 id（去掉 #）
+// idx   : sections 数组中的区块索引（1-8 为可拼图区块）
+// label : 磁贴上显示的文字
+// tile  : 磁贴图标（FontAwesome）
+// color : 磁贴主色（CSS 变量或具体色值）
+export const metroTiles = [
+  { id: 'section-job',        idx: 1, label: '求职信息', tile: 'fa-briefcase',        color: '#2563eb' },  // 蓝
+  { id: 'section-education',  idx: 2, label: '教育经历', tile: 'fa-graduation-cap',   color: '#7c3aed' },  // 紫
+  { id: 'section-skills',     idx: 3, label: '专业技能', tile: 'fa-code',             color: '#059669' },  // 绿
+  { id: 'section-experience', idx: 4, label: '工作经历', tile: 'fa-building',         color: '#ea580c' },  // 橙
+  { id: 'section-awards',     idx: 5, label: '荣誉奖项', tile: 'fa-trophy',           color: '#d97706' },  // 金
+  { id: 'section-projects',   idx: 6, label: '项目经历', tile: 'fa-project-diagram',  color: '#db2777' },  // 粉
+  { id: 'section-hobbies',    idx: 7, label: '兴趣爱好', tile: 'fa-heart',            color: '#0891b2' },  // 青
+  { id: 'section-gallery',    idx: 8, label: '作品展示', tile: 'fa-image',            color: '#f59e0b' },  // 橙
+];

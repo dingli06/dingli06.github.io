@@ -11,13 +11,27 @@
     <!-- 各区块由 components/main.js 渲染进对应挂载点 -->
     <div class="rs-container">
         <div id="section-header"></div>
-        <div id="section-job"></div>
-        <div id="section-education"></div>
-        <div id="section-skills"></div>
-        <div id="section-experience"></div>
-        <div id="section-awards"></div>
-        <div id="section-projects"></div>
-        <div id="section-hobbies"></div>
+
+        <!-- 视图切换：拼图模式 / 完整列表 -->
+        <div class="rs-view-switch" id="view-switch" role="tablist">
+            <button class="rs-tab is-active" data-rs-view="metro" type="button">磁贴模式</button>
+            <button class="rs-tab" data-rs-view="list" type="button">长图模式</button>
+        </div>
+
+        <!-- 拼图（WinPE8 Metro 磁贴）模式容器 -->
+        <div id="section-metro" class="rs-metro"></div>
+
+        <!-- 完整列表模式容器（默认隐藏，拼图模式下不渲染） -->
+        <div id="section-list-hidden" hidden>
+            <div id="section-job"></div>
+            <div id="section-education"></div>
+            <div id="section-skills"></div>
+            <div id="section-experience"></div>
+            <div id="section-awards"></div>
+            <div id="section-projects"></div>
+            <div id="section-hobbies"></div>
+            <div id="section-gallery"></div>
+        </div>
     </div>
 
     <!-- 页脚 -->

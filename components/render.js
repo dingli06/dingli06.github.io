@@ -273,12 +273,87 @@ export function renderFooter() {
   return `
     <footer class="rs-footer">
       <div class="rs-container">
-        <p>${f.text} <a href="${f.link}">${f.linkText}</a></p>
         <p class="rs-footer-note">${f.note}</p>
       </div>
     </footer>
   `;
 }
+
+export function renderGallery() {
+  const items = data.gallery || [];
+  if (!items.length) return '';
+
+  const tabs = items
+    .map(
+      (item, i) => `
+      <button class="rs-gallery-chip ${i === 0 ? 'is-active' : ''}"
+              data-rs-gallery-item-btn="${i}"
+              onclick="window.__rsGallerySelectItem && window.__rsGallerySelectItem(this, ${i})"
+              type="button">${item.title}</button>`
+    )
+    .join('');
+
+  const panels = items
+    .map(
+      (item, i) => `
+      <div class="rs-gallery-item ${i === 0 ? 'is-active' : ''}" data-rs-gallery-item-panel="${i}" ${i === 0 ? '' : 'hidden'}>
+        <div class="rs-gallery-preview">
+          <div>
+            <h3 class="rs-title">${item.title}</h3>
+            ${item.desc ? `<p class="rs-muted">${linkify(item.desc)}</p>` : ''}
+          </div>
+          ${renderGalleryShow(item.show)}
+        </div>
+      </div>`
+    )
+    .join('');
+
+  return `
+    <div class="rs-card">
+      ${sectionHead('fa-image', '作品展示')}
+      <div class="rs-gallery" data-rs-gallery>
+        <div class="rs-gallery-bar">${tabs}</div>
+        <div class="rs-gallery-body">${panels}</div>
+      </div>
+    </div>
+  `;
+}
+
+function renderGalleryShow(show) {
+  if (!show || typeof show !== 'object') return '';
+  const entries = Object.entries(show);
+  if (!entries.length) return '';
+
+  const tabs = entries
+    .map(
+      ([label], i) => `
+      <button class="rs-gallery-show-chip ${i === 0 ? 'is-active' : ''}"
+              data-rs-gallery-show-btn="${i}"
+              onclick="window.__rsGallerySelectShow && window.__rsGallerySelectShow(this, ${i})"
+              type="button">${label}</button>`
+    )
+    .join('');
+
+  const panels = entries
+    .map(
+      ([, path], i) => `
+      <div class="rs-gallery-show-panel ${i === 0 ? 'is-active' : ''}"
+           data-rs-gallery-show-panel="${i}"
+           ${i === 0 ? '' : 'hidden'}>
+        ${mediaTag(path)}
+      </div>`
+    )
+    .join('');
+
+  return `
+    <div class="rs-gallery-show" data-rs-gallery-show>
+      <div class="rs-gallery-show-bar">${tabs}</div>
+      <div class="rs-gallery-show-body">${panels}</div>
+    </div>
+  `;
+}
+
+
 
 // 导出所有区块，供装配器按需挂载
 export const sections = [
@@ -290,5 +365,6 @@ export const sections = [
   renderAwards,
   renderProjects,
   renderHobbies,
+  renderGallery,
   renderFooter,
 ];

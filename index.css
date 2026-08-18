@@ -335,6 +335,60 @@ ul {
   margin-top: 0.75rem;
 }
 
+.rs-gallery-bar,
+.rs-gallery-show-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.rs-gallery-bar {
+  margin-bottom: 1rem;
+}
+
+.rs-gallery-chip,
+.rs-gallery-show-chip {
+  border: 1px solid var(--rs-line);
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--rs-muted);
+  border-radius: 9999px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.rs-gallery-chip:hover,
+.rs-gallery-show-chip:hover {
+  color: var(--rs-primary);
+}
+
+.rs-gallery-chip.is-active,
+.rs-gallery-show-chip.is-active {
+  background: var(--rs-primary);
+  border-color: var(--rs-primary);
+  color: #fff;
+}
+
+.rs-gallery-body {
+  margin-top: 0.75rem;
+}
+
+.rs-gallery-item {
+  display: none;
+}
+
+.rs-gallery-item.is-active {
+  display: block;
+}
+
+.rs-gallery-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .rs-tab-bar {
   display: flex;
   flex-wrap: wrap;
@@ -373,6 +427,20 @@ ul {
   display: block;
 }
 
+.rs-gallery-show {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.rs-gallery-show-panel {
+  display: none;
+}
+
+.rs-gallery-show-panel.is-active {
+  display: block;
+}
+
 .rs-tab-panel img {
   max-width: 100%;
   height: auto;
@@ -386,6 +454,163 @@ ul {
   border-radius: 8px;
   border: 1px solid var(--rs-line);
   display: block;
+}
+
+/* ---------- 视图切换（拼图 / 完整列表） ---------- */
+.rs-view-switch {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0 1.5rem;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 9999px;
+  padding: 0.25rem;
+  width: max-content;
+  box-shadow: 0 2px 8px rgba(31, 38, 135, 0.08);
+}
+
+#view-switch .rs-tab {
+  border: none;
+  border-radius: 9999px;
+  padding: 0.4rem 1.2rem;
+  margin-bottom: 0;
+  font-weight: 600;
+}
+
+#view-switch .rs-tab.is-active {
+  background: var(--rs-primary);
+  color: #fff;
+}
+
+#view-switch .rs-tab:hover {
+  color: var(--rs-primary);
+}
+
+#view-switch .rs-tab.is-active:hover {
+  color: #fff;
+}
+
+/* 由 JS 控制隐藏/显示 */
+#section-list-hidden[hidden],
+#section-metro[hidden] {
+  display: none;
+}
+
+/* ---------- 拼图（WinPE8 Metro 磁贴）模式 ---------- */
+/* 磁贴 + 面板整体布局：面板展开时并排，窄屏纵向堆叠 */
+.rs-metro-body {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .rs-metro-body {
+    grid-template-columns: 260px 1fr;
+    align-items: start;
+  }
+}
+
+/* 磁贴网格 */
+.rs-metro-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .rs-metro-grid {
+    grid-template-columns: 1fr 1fr;
+    position: sticky;
+    top: 1rem;
+  }
+}
+
+/* 单个磁贴（Win8 风格方块） */
+.rs-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  aspect-ratio: 1 / 1;
+  border: none;
+  cursor: pointer;
+  border-radius: 12px;
+  color: #fff;
+  background: var(--tile-bg);
+  padding: 0.6rem;
+  font-family: inherit;
+  box-shadow: 0 6px 16px rgba(31, 38, 135, 0.18);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  outline: none;
+  overflow: hidden;
+}
+
+/* 磁贴装饰：对角斜纹 / 高光 */
+.rs-tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    transparent 40%
+  );
+  pointer-events: none;
+}
+
+.rs-tile i {
+  font-size: 1.6rem;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.rs-tile-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  z-index: 1;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* hover / 激活态 */
+.rs-tile:hover,
+.rs-tile:focus-visible,
+.rs-tile.is-active {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 10px 24px rgba(31, 38, 135, 0.28);
+  filter: brightness(1.08);
+}
+
+.rs-tile.is-active {
+  outline: 3px solid var(--rs-primary-soft);
+  outline-offset: 2px;
+}
+
+/* 详情面板 */
+.rs-metro-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: var(--rs-card-radius);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: var(--rs-card-shadow);
+  padding: 1.5rem;
+  min-height: 14rem;
+  transition: box-shadow 0.3s ease;
+}
+
+/* 面板内复用卡片间距：去掉重复下边距 */
+.rs-metro-panel .rs-card {
+  margin-bottom: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: transparent;
+  border: none;
+  padding: 0;
 }
 
 /* ---------- 页脚 ---------- */
