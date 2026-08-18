@@ -91,6 +91,15 @@ export const awards = [
 // 每个项目：title / duration / desc(字符串或数组) / items(要点列表，可选)
 export const projects = [
   {
+    title: '最近在忙的事情~',
+    duration: '2026.08-至今',
+    items: [
+    '1. 在学NPU相关的东西，优化算子之类的',],
+    "tablist":{
+     
+    }
+  },
+  {
     title: 'ChipZone 智能体(桌面应用)',
     duration: '开发设计(2026.04-2026.08)',
     items: [
