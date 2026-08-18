@@ -1,14 +1,406 @@
 
+/* ============================================================
+   个人简历 - 纯 CSS 样式表 (无 Tailwind)
+   类名前缀 .rs- 表示 resume(简历) 项目自有，避免与第三方冲突
+   ============================================================ */
 
-p{
-font-family:cursive;
-font-size:80;
-font-style:oblique 40deg;
-
+/* ---------- 设计变量 (Design Tokens) ---------- */
+:root {
+  --rs-bg-start: #f5f7fa;
+  --rs-bg-end: #e4edf5;
+  --rs-text: #2d3748;
+  --rs-muted: #6b7280;            /* 次级文字 */
+  --rs-primary: #4f46e5;          /* 主色 indigo-600 */
+  --rs-primary-dark: #4338ca;
+  --rs-primary-soft: #e0e7ff;     /* 主色浅底 indigo-100 */
+  --rs-primary-softest: rgba(99, 102, 241, 0.1);
+  --rs-line: #e5e7eb;
+  --rs-footer-bg: #f3f4f6;
+  --rs-card-radius: 16px;
+  --rs-card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  --rs-card-shadow-hover: 0 12px 28px 0 rgba(31, 38, 135, 0.2);
+  --rs-font: 'Noto Sans SC', sans-serif;
 }
 
-audio{
+/* ---------- 基础 ---------- */
+* {
+  box-sizing: border-box;
+}
 
-align:"center";
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
 
+body {
+  font-family: var(--rs-font);
+  background: linear-gradient(135deg, var(--rs-bg-start) 0%, var(--rs-bg-end) 100%);
+  color: var(--rs-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: var(--rs-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+ul {
+  margin: 0;
+  padding-left: 1.4em;
+}
+
+/* ---------- 布局 ---------- */
+/* 页面主容器 */
+.rs-container {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+@media (min-width: 768px) {
+  .rs-container {
+    padding: 2rem 2rem;
+  }
+}
+
+/* 玻璃拟态卡片 */
+.rs-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: var(--rs-card-radius);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: var(--rs-card-shadow);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.rs-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--rs-card-shadow-hover);
+}
+
+/* 区块标题行（图标圆 + 文字） */
+.rs-section-head {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* 标题旁图标圆 */
+.rs-head-icon {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background-color: var(--rs-primary-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--rs-primary);
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* ---------- 头部 ---------- */
+/* 头像 + 信息行 */
+.rs-header-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .rs-header-body {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+/* 头像容器 */
+.rs-avatar-wrap {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-right: 0;
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+  .rs-avatar-wrap {
+    margin-right: 1.5rem;
+    margin-bottom: 0;
+  }
+}
+
+.rs-avatar-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 头部右侧信息 */
+.rs-header-info {
+  flex: 1;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .rs-header-info {
+    text-align: left;
+  }
+}
+
+/* 姓名 */
+.rs-name {
+  font-size: 1.875rem;
+  font-weight: 700;
+  line-height: 2.25rem;
+  margin: 0 0 0.5rem;
+}
+
+/* 次级信息行（性别/年龄/籍贯） */
+.rs-bio {
+  color: var(--rs-muted);
+  margin-bottom: 1rem;
+}
+
+.rs-bio .rs-bio-item + .rs-bio-item {
+  margin-left: 1rem;
+}
+
+/* 联系方式行 */
+.rs-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .rs-contact {
+    justify-content: flex-start;
+  }
+}
+
+.rs-contact i {
+  color: var(--rs-primary);
+  margin-right: 0.25rem;
+}
+
+/* ---------- 网格（求职信息两栏） ---------- */
+.rs-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .rs-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ---------- 文字工具 ---------- */
+.rs-label {
+  font-weight: 500;
+}
+
+.rs-list a {
+  color: var(--rs-primary);
+  text-decoration: underline;
+  word-break: break-all;
+}
+
+.rs-list a:hover {
+  color: var(--rs-primary-dark);
+}
+
+.rs-muted {
+  color: var(--rs-muted);
+  margin-bottom: 0.5rem;
+}
+
+.rs-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+
+.rs-subhead {
+  font-weight: 500;
+  margin: 0 0 0.5rem;
+}
+
+.rs-subhead-mt {
+  font-weight: 500;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* 列表项间距 */
+.rs-list li + li {
+  margin-top: 0.5rem;
+}
+
+/* 分区项目间距 */
+.rs-block + .rs-block {
+  margin-top: 1rem;
+}
+
+/* ---------- 时间线 ---------- */
+/* 每个节点 */
+.rs-timeline-node {
+  display: flex;
+  align-items: flex-start;
+}
+
+.rs-timeline-node + .rs-timeline-node {
+  margin-top: 1.5rem;
+}
+
+/* 左列（圆点 + 竖线） */
+.rs-timeline-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.rs-timeline-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--rs-primary);
+  flex-shrink: 0;
+}
+
+.rs-timeline-line {
+  width: 2px;
+  background-color: var(--rs-line);
+  flex: 1;
+  min-height: 1.5rem;
+}
+
+/* 节点内容 */
+.rs-timeline-content {
+  flex: 1;
+}
+
+/* ---------- 技能 / 兴趣标签胶囊 ---------- */
+.rs-skill-group + .rs-skill-group {
+  margin-top: 1rem;
+}
+
+.rs-pills {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+}
+
+.rs-pill {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  background: var(--rs-primary-softest);
+  color: var(--rs-primary);
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+.rs-pill i {
+  margin-right: 0.25rem;
+}
+
+/* ---------- 项目 Tab ---------- */
+.rs-tabs {
+  margin-top: 0.75rem;
+}
+
+.rs-tab-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  border-bottom: 2px solid var(--rs-line);
+  margin-bottom: 0.75rem;
+}
+
+.rs-tab {
+  padding: 6px 14px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--rs-muted);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.rs-tab:hover {
+  color: var(--rs-primary);
+}
+
+.rs-tab.is-active {
+  color: var(--rs-primary);
+  border-bottom-color: var(--rs-primary);
+}
+
+.rs-tab-panel {
+  display: none;
+}
+
+.rs-tab-panel.is-active {
+  display: block;
+}
+
+.rs-tab-panel img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--rs-line);
+}
+
+.rs-tab-panel video {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--rs-line);
+  display: block;
+}
+
+/* ---------- 页脚 ---------- */
+.rs-footer {
+  background-color: var(--rs-footer-bg);
+  padding: 1.5rem 0;
+  margin-top: 3rem;
+  color: var(--rs-muted);
+  text-align: center;
+}
+
+.rs-footer .rs-footer-note {
+  margin-top: 0.5rem;
+}
+
+.rs-footer a {
+  color: var(--rs-primary);
 }
